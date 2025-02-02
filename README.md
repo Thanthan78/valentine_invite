@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Will You Be My Valentine?</title>
+    <style>
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background: linear-gradient(135deg, #ff9a9e, #fad0c4);
+            font-family: 'Arial', sans-serif;
+            margin: 0;
+            overflow: hidden;
+        }
+        
+        .container {
+            text-align: center;
+            background: #fff0f5;
+            padding: 40px;
+            border-radius: 20px;
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3);
+            position: relative;
+            z-index: 2;
+        }
+        
+        h1 {
+            color: #ff3366;
+            font-size: 3em;
+            margin-bottom: 30px;
+            animation: float 3s ease-in-out infinite;
+        }
+        
+        .btn {
+            padding: 15px 30px;
+            font-size: 1.2em;
+            margin: 10px;
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: transform 0.2s, background-color 0.3s;
+        }
+        
+        .yes-btn {
+            background-color: #ff3366;
+            color: white;
+        }
+        
+        .yes-btn:hover {
+            background-color: #ff6699;
+            transform: scale(1.1);
+        }
+        
+        .no-btn {
+            background-color: #ccc;
+            color: black;
+            position: relative;
+        }
+        
+        .no-btn:hover {
+            background-color: #999;
+        }
+        
+        .hidden {
+            display: none;
+        }
+
+        .response {
+            color: #ff3366;
+            font-size: 2.5em;
+            margin-top: 20px;
+            animation: pop 0.5s ease-in-out;
+        }
+
+        @keyframes pop {
+            0% { transform: scale(0.5); opacity: 0; }
+            100% { transform: scale(1); opacity: 1; }
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(-10px); }
+            50% { transform: translateY(10px); }
+        }
+
+        .hearts {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+            z-index: 1;
+        }
+
+        .heart {
+            position: absolute;
+            width: 20px;
+            height: 20px;
+            background: rgba(255, 51, 102, 0.8);
+            transform: rotate(45deg);
+            animation: floatUp 6s infinite ease-in;
+        }
+
+        .heart::before,
+        .heart::after {
+            content: '';
+            position: absolute;
+            width: 20px;
+            height: 20px;
+            background: rgba(255, 51, 102, 0.8);
+            border-radius: 50%;
+        }
+
+        .heart::before {
+            top: -10px;
+            left: 0;
+        }
+
+        .heart::after {
+            left: -10px;
+            top: 0;
+        }
+
+        @keyframes floatUp {
+            0% {
+                transform: translateY(100vh) rotate(45deg);
+                opacity: 1;
+            }
+            100% {
+                transform: translateY(-20vh) rotate(45deg);
+                opacity: 0;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="hearts"></div>
+    <div class="container">
+        <h1>Will You Be My Valentine? ❤️</h1>
+        <button class="btn yes-btn" onclick="sayYes()">Yes</button>
+        <button class="btn no-btn" onmouseover="moveButton()">No</button>
+        <div id="response" class="hidden">
+            Yay! You just made my day! 🎉💕
+        </div>
+    </div>
+
+    <script>
+        function sayYes() {
+            document.getElementById('response').classList.remove('hidden');
+        }
+
+        function moveButton() {
+            const noButton = document.querySelector('.no-btn');
+            const container = document.querySelector('.container');
+            const maxX = container.offsetWidth - noButton.offsetWidth;
+            const maxY = container.offsetHeight - noButton.offsetHeight;
+
+            const randomX = Math.floor(Math.random() * maxX);
+            const randomY = Math.floor(Math.random() * maxY);
+
+            noButton.style.position = 'absolute';
+            noButton.style.left = randomX + 'px';
+            noButton.style.top = randomY + 'px';
+        }
+
+        // Heart animations
+        const heartsContainer = document.querySelector('.hearts');
+
+        function createHeart() {
+            const heart = document.createElement('div');
+            heart.classList.add('heart');
+            heart.style.left = Math.random() * 100 + 'vw';
+            heart.style.animationDuration = (Math.random() * 3 + 3) + 's';
+            heart.style.opacity = Math.random();
+            heart.style.transform = 'scale(' + (Math.random() * 0.5 + 0.5) + ') rotate(45deg)';
+
+            heartsContainer.appendChild(heart);
+
+            setTimeout(() => {
+                heart.remove();
+            }, 6000);
+        }
+
+        setInterval(createHeart, 500);
+    </script>
+</body>
+</html>
